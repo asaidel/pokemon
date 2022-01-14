@@ -28,10 +28,10 @@ public class PokemonController {
 		}
 	}	
 	
-	@GetMapping({"/pokemon","/pokemon/{limit}{offset}"})
-	public ResponseEntity<JSONObject> getPokemons(@RequestParam(required = false) String limit, @RequestParam(required = false) String offset) {
+	@GetMapping({"/pokemon","/pokemon/{offset}{limit}"})
+	public ResponseEntity<JSONObject> getPokemons(@RequestParam(required = false) String offset, @RequestParam(required = false) String limit) {
 		try {
-			return new ResponseEntity<>(pokemonService.getPaginated(limit, offset), HttpStatus.OK);
+			return new ResponseEntity<>(pokemonService.getPaginated(offset, limit), HttpStatus.OK);
 		} catch (URISyntaxException | IOException | InterruptedException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

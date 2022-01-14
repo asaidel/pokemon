@@ -1,6 +1,7 @@
 package co.pokeapi.service;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +19,11 @@ public class PokemonService {
 	@Value( "${address}" )
 	private String uri;
 	
-	public JSONObject getPaginated(String limit, String offset) throws URISyntaxException, IOException, InterruptedException {
+	public JSONObject getPaginated(String offset, String limit) throws URISyntaxException, IOException, InterruptedException {
+		final String QUERY_FORMAT = "?offset=%s&limit=%s";
+		var query = String.format(QUERY_FORMAT, offset, limit);
 		
-		Map<?, ?> pokemap = HttpClientUtil.httpGetRequest(uri,"");
+		Map<?, ?> pokemap = HttpClientUtil.httpGetRequest(this.uri, query);
 		
 		List<Map<?,?>> results = (List<Map<?,?>>) pokemap.get("results");		
 		JSONArray array = new JSONArray();
